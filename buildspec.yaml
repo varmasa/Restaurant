@@ -1,0 +1,28 @@
+version: 0.2
+
+env:
+  variables:
+    REPOSITORY_URI: "226860144968.dkr.ecr.ap-south-1.amazonaws.com/mydocker_repo"
+    IMAGE_TAG: "latest"
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 226860144968.dkr.ecr.ap-south-1.amazonaws.com
+      - echo Build started on `date`
+  build:
+    commands:
+      - echo Building the Docker image...
+      - docker build -t mydocker_repo .
+      - docker tag mydocker_repo:latest 226860144968.dkr.ecr.ap-south-1.amazonaws.com/mydocker_repo:latest
+  post_build:
+    commands:
+      - echo Pushing the Docker image...
+      - docker push 226860144968.dkr.ecr.ap-south-1.amazonaws.com/mydocker_repo:latest
+      - echo Writing imagedefinitions.json...
+      - printf '[{"name":"my-static-site-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+artifacts:
+  files:
+    - imagedefinitions.json
