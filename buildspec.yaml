@@ -15,11 +15,11 @@ phases:
   build:
     commands:
       - echo Building the Docker image...
-      - docker build -t mydocker_repo:latest .
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
   post_build:
     commands:
       - echo Pushing the Docker image...
-      - docker push 226860144968.dkr.ecr.ap-south-1.amazonaws.com/mydocker_repo:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing imagedefinitions.json...
       - printf '[{"name":"my-static-site-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
