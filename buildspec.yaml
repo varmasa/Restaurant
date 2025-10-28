@@ -15,7 +15,7 @@ phases:
   build:
     commands:
       - echo Building the Docker image...
-      - docker build -t mydocker_repo .
+      - docker build -t mydocker_repo:latest .
       - docker tag mydocker_repo:latest 226860144968.dkr.ecr.ap-south-1.amazonaws.com/mydocker_repo:latest
   post_build:
     commands:
