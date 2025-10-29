@@ -22,7 +22,7 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - docker image prune -f
       - echo Writing imagedefinitions.json...
-      - printf '[{"name":"my-static-site-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"DeployToEcsFargateContainerName","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
   files:
     - imagedefinitions.json
